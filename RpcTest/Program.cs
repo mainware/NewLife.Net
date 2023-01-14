@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using NewLife;
 using NewLife.Data;
 using NewLife.Log;
@@ -90,6 +91,25 @@ namespace RpcTest
             // 标准服务，Json
             var n = await client.AddAsync(1245, 3456);
             XTrace.WriteLine("Add: {0}", n);
+
+            var ntext1 = await client.TestString1();
+            XTrace.WriteLine("TestString: {0}", ntext1);
+
+            var ntext = await client.TestString("中文字符串".GetBytes());
+            XTrace.WriteLine("TestString: {0}", System.Text.Encoding.UTF8.GetString(ntext.ToArray()).TrimEnd('\0'));
+
+
+
+            string param1 = "paramstring1";
+            string param2 = "paramstring2";
+            var ntext3 = await client.TestString3(param1);
+            XTrace.WriteLine("TestString: {0}", ntext3);
+
+            User paramUser = new User() { ID =13, Name ="隔壁老王", Enable =true, CreateTime = DateTime.Now};
+            bool paramBool = false;
+            var ntext4 = await client.TestString4(param1, param2, paramUser, paramBool);
+            XTrace.WriteLine("TestString: {0}", ntext1);
+
 
             // 高速服务，二进制
             var buf = "Hello".GetBytes();

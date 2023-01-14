@@ -28,6 +28,31 @@ namespace RpcTest
         {
             return await InvokeAsync<Packet>("My/RC4", pk);
         }
+        public async Task<Packet> TestString(Packet inParam)
+        {
+            return await InvokeAsync<Packet>("My/TestString", inParam);
+        }
+
+        public async Task<string> TestString1()
+        {
+            return await InvokeAsync<string>("My/TestString1");
+        }
+        public async Task<string> TestString2()
+        {
+            return await InvokeAsync<string>("My/TestString1");
+        }
+        public async Task<string> TestString3(string param1)
+        {
+            var result = await InvokeAsync<Packet>("My/TestString3", new { param1 });
+            var resultstring = System.Text.Encoding.UTF8.GetString(result.ToArray()).TrimEnd('\0');
+            return resultstring;
+        }
+        public async Task<string> TestString4(string param1, string param2, User paramUser, bool paramBool)
+        {
+            var result = await InvokeAsync<Packet>("My/TestString4", new { param1, param2, paramUser, paramBool });
+            var resultstring = System.Text.Encoding.UTF8.GetString(result.ToArray()).TrimEnd('\0');
+            return resultstring;
+        }
 
         public async Task<User> FindUserAsync(Int32 uid, Boolean enable)
         {
